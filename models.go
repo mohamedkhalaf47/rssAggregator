@@ -77,3 +77,35 @@ func databaseFeedFollowsToAPIFeedFollows(dbFeedFollows []database.FeedFollow) []
 	}
 	return feedFollows
 }
+
+type Post struct {
+	ID          uuid.UUID `json:"id"`
+	CreatedAt   time.Time `json:"created_at"`
+	UpdatedAt   time.Time `json:"updated_at"`
+	Title       string    `json:"title"`
+	Description string    `json:"description"`
+	PublishedAt time.Time `json:"published_at"`
+	Url         string    `json:"url"`
+	FeedID      uuid.UUID `json:"feed_id"`
+}
+
+func databasePostToAPIPost(post database.Post) Post {
+	return Post{
+		ID:          post.ID,
+		CreatedAt:   post.CreatedAt,
+		UpdatedAt:   post.UpdatedAt,
+		Title:       post.Title,
+		Description: post.Description,
+		PublishedAt: post.PublishedAt,
+		Url:         post.Url,
+		FeedID:      post.FeedID,
+	}
+}
+
+func databasePostsToAPIPosts(dbPosts []database.Post) []Post {
+	posts := []Post{}
+	for _, dbPost := range dbPosts {
+		posts = append(posts, databasePostToAPIPost(dbPost))
+	}
+	return posts
+}
